@@ -1,0 +1,134 @@
+
+initialize(){
+	initializeTreeSeq(); 
+    initializeMutationRate(1e-8);
+    initializeRecombinationRate(1e-8);
+    initializeMutationType("m2",0.5,"f",0.0); // Neutral until fitness is modified
+    m2.color = "red";
+    initializeGenomicElementType("g1",m1,1.0);
+    // Chromosomes
+    initializeGenomicElement(g1, 0, 10*999999);
+
+}
+/// 
+1 {
+	// Inputtable constants
+    //defineConstant("s",0.1);
+    //defineConstant("m",0.2);
+    //defineConstant("condfreq",0.3);
+    //defineConstant("rep_id", "1");
+	//defineConstant("N",1000);
+	//defineConstant("sample_size",50);
+    // Other constants
+    defineConstant("m2_site", 10*499999 );
+    // Save run identifier
+    defineConstant("simID",getSeed());
+    // Add first population 
+    sim.addSubpop("p1",N); 
+}
+// Add m2 mutations and save
+5000 late() {
+    // save state
+    sim.treeSeqOutput("/tmp/slim_" + simID + ".trees");
+    // introduce m2
+    target = sample(p1.genomes,1);
+    target.addNewDrawnMutation(m2,m2_site);
+}
+// Wait and check for establishment
+5000:5100 late() {
+
+    mut = sim.mutationsOfType( m2 ) ;
+    if ( size(mut) == 1 )
+    {
+        if (sim.mutationFrequencies(NULL,mut) > condfreq )
+        {
+            cat( getSeed() + ": ESTABLISHED -- PROCEEDING WITH SPLIT\n" ) ;
+            sim.deregisterScriptBlock(self);
+        }
+    }
+    else
+    {
+            cat(getSeed() + " GENERATION: "+ sim.generation +": LOST BEFORE ESTABLISHMENT -- RESTARTING \n");
+            // back to saved gen
+            sim.readFromPopulationFile( "/tmp/slim_" + simID + ".trees" );
+            // start newly seeded run
+            setSeed( rdunif(1,0,asInteger(2^62) - 1 ));
+            // re introduce mutation
+            target = sample( p1.genomes, 1 );
+            target.addNewDrawnMutation( m2, m2_site );
+    }
+}
+5099 late() {
+     // Save state for establishment checking
+     sim.treeSeqOutput("/tmp/slim_" + simID + ".trees");
+}
+// First split
+5100  {
+    sim.addSubpopSplit("p2", N , p1 );
+}
+/// save state
+5100 late() {
+     sim.treeSeqOutput("/tmp/slim_" + simID + ".trees");
+}
+//// RESTART SIMULATION IF MUTATION IS LOST ////
+5100:7600 late() {
+    mut = sim.mutationsOfType( m2 ) ;
+	// Store value if mutation is lost. If clause is b/c if m2 is completely lost, it fucks up code
+    lost = sim.mutationFrequencies(p2,mut) < 1/(2*N);
+    // Only control for selection scenario
+    if ( s > 0.0 ){
+    	if ( size(lost) == 0 ){
+    		cat(getSeed() + " GENERATION "+ sim.generation + ": m2 LOST IN ALL POPS: RESTARTING\n");
+
+    		lost = T;
+    		}
+    	if ( lost ) {
+      	         /// m2 LOST, STOP SIMULATION 
+         	 		cat(getSeed()+ " GENERATION "+sim.generation+": m2 LOST: RESTARTING\n");
+             	  	// back to saved gen
+            	  	sim.readFromPopulationFile( "/tmp/slim_" + simID + ".trees" );
+         		  	// start newly seeded run
+      		     	setSeed( rdunif(1,0,asInteger(2^62) - 1 ));
+    	}
+    }
+}
+////////////////////////////////////////////
+// Second split
+5600 {
+    sim.addSubpopSplit("p4", N , p2 );
+}
+/// save state
+5600 late() {
+	sim.treeSeqOutput("/tmp/slim_" + simID + ".trees");
+}
+// Third split(s)
+7100 {
+    sim.addSubpopSplit("p3",N,p2);
+}
+/// save state
+7100 late() {
+     sim.treeSeqOutput("/tmp/slim_" + simID + ".trees");
+}
+// Admixture event
+7600 {
+	sim.addSubpopSplit("p5",N,p2);
+	p5.setMigrationRates(p4,m);
+}
+/// Cut migration
+7601 {
+    p5.setMigrationRates(p4,0);	
+}
+/// save state
+7600 late() {
+     sim.treeSeqOutput("/tmp/slim_" + simID + ".trees");
+}
+// Modify fitness in admixed population
+7600: fitness(m2, p5){
+        return 1.0 + s ; //
+}
+// End simulation and save genotypes
+7700 late() {
+	sim.treeSeqOutput("slim_" + simID + ".trees");
+	sim.simulationFinished();
+}
+
