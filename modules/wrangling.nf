@@ -1,25 +1,24 @@
 process PREPROCESS {
 
-    publishDir "${params.outdir}/${params.scenario}-s${s}-m${m}-cond${params.conditioned_frequency}"   , pattern:"genotypes_*" , mode: "move" 
+    publishDir "${params.outdir}/${params.scenario}-s${s}-m${m}-cond${params.conditioned_frequency}"   , pattern:"genotypes_*"  
     cpus 1
-    scratch true
+    
                                                                                
     input:                                                                      
-        tuple val(rep_id), val(s), val(m), file(vcfs)
+        tuple val(rep_id), val(s), val(m), file(vcf)
     output:                                                                     
         tuple val(rep_id), val(s), val(m), file("genotypes_${rep_id}.bed"), file("genotypes_${rep_id}.fam"),file("genotypes_${rep_id}.bim")
         
                                                                                 
    
     
-    """                                                                         
-    merge-vcf --outfile genotypes_${rep_id}.vcf
-    plink --vcf genotypes_${rep_id}.vcf --id-delim : --make-bed --out genotypes_${rep_id} 
+    """                                                                          
+    plink --vcf genotypes_${rep_id}.vcf.gz --keep-allele-order --id-delim : --make-bed --out genotypes_${rep_id} 
     mv genotypes_${rep_id}.bed geno.bed                                         
     mv genotypes_${rep_id}.fam geno.fam                                         
     mv genotypes_${rep_id}.bim geno.bim                                         
                                                                                 
-    plink --bfile geno --maf 0.1 --nonfounders --make-bed --out genotypes_${rep_id}    
+    plink --bfile geno --maf 0.05 --nonfounders --make-bed --out genotypes_${rep_id}    
     """    
 
 }
@@ -55,7 +54,7 @@ process TREEMIX_INPUT {
     scratch true                                                                
                                                                                 
     input:                                                                      
-        tuple val(rep_id), val(s), val(m) file(bed), file(bim), file(fam)                                            
+        tuple val(rep_id), val(s), val(m), file(bed), file(bim), file(fam)                                            
     output:                                                                     
         tuple val(rep_id),val(s), val(m), file("*.counts.gz")                                  
                                                                                 
@@ -71,7 +70,7 @@ process TREEMIX_INPUT {
 process MAF_FILTER {                                                            
                                                                                 
     cpus 1                                                
-    scratch true                      
+
                                                                                 
     input:                                                                      
         tuple val(rep_id), val(s), val(m),file(bed), file(bim), file(fam)                      

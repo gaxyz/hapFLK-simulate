@@ -16,6 +16,7 @@ process KINSHIP_HAPFLK{
             --prefix kinship_${rep_id} \
             --outgroup p1 \
             -K ${params.K} \
+            --phased True \
             --reynolds \
             --nfit ${params.nfit}                                               
     """                                                                         
@@ -40,6 +41,7 @@ process EMPIRICAL_HAPFLK {
             --prefix empirical_${rep_id} \
             --outgroup p1 \
             -K ${params.K} \
+            --phased True \
             --covkin \
             --reynolds \
             --nfit ${params.nfit}                                               
@@ -72,6 +74,7 @@ process TREEMIX_HAPFLK {
             --prefix treemix_${rep_id} \
             --outgroup p1 \
             -K ${params.K} \
+            --phased True \
             --nfit ${params.nfit} \
             --kinship ${covariance}                                             
     """                                                                         
@@ -88,15 +91,19 @@ process THEORETICAL_HAPFLK{
     output:                                                                     
         tuple val(rep_id) ,val(s), val(m), file("*.flk"), file("*.hapflk")                     
                                                                                 
-    """                                                                         
+    """
+    ${params.covariance_script} ${params.N} ${m}
+
+                              
     hapflk --ncpu ${task.cpus} \
             --reynolds-snps ${params.reynold_snps} \
             --bfile genotypes_${rep_id} \
             --prefix theoretical_${rep_id} \
             --outgroup p1 \
             -K ${params.K} \
+            --phased True \
             --nfit ${params.nfit} \
-            --kinship ${covariance}                                             
+            --kinship covariance.tab                                             
     """                                                                         
                                                                                 
 }       

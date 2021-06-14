@@ -35,7 +35,7 @@ rownames(f) <- pops
 colnames(f) <- pops
 print(paste0("Writing matrix for m=", m))
 f
-write.table(f, paste0("simple_m0",m*10,"0.tab"),
+write.table(f, paste0("covariance.tab"),
             sep =  " ",
             row.names = TRUE,
             col.names = FALSE,
