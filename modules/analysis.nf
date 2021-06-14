@@ -16,7 +16,7 @@ process KINSHIP_HAPFLK{
             --prefix kinship_${rep_id} \
             --outgroup p1 \
             -K ${params.K} \
-            --phased True \
+            --phased     \
             --reynolds \
             --nfit ${params.nfit}                                               
     """                                                                         
@@ -41,7 +41,7 @@ process EMPIRICAL_HAPFLK {
             --prefix empirical_${rep_id} \
             --outgroup p1 \
             -K ${params.K} \
-            --phased True \
+            --phased     \
             --covkin \
             --reynolds \
             --nfit ${params.nfit}                                               
@@ -74,7 +74,7 @@ process TREEMIX_HAPFLK {
             --prefix treemix_${rep_id} \
             --outgroup p1 \
             -K ${params.K} \
-            --phased True \
+            --phased     \
             --nfit ${params.nfit} \
             --kinship ${covariance}                                             
     """                                                                         
@@ -101,7 +101,7 @@ process THEORETICAL_HAPFLK{
             --prefix theoretical_${rep_id} \
             --outgroup p1 \
             -K ${params.K} \
-            --phased True \
+            --phased     \
             --nfit ${params.nfit} \
             --kinship covariance.tab                                             
     """                                                                         
