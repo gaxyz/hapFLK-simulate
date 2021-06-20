@@ -51,7 +51,7 @@ process AGGREGATE{
 
 process TREEMIX_INPUT {                                                         
                                                                                 
-    scratch true                                                                
+    
                                                                                 
     input:                                                                      
         tuple val(rep_id), val(s), val(m), file(bed), file(bim), file(fam)                                            
