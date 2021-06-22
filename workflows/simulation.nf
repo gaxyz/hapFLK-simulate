@@ -74,7 +74,7 @@ TREEMIX( TREEMIX_INPUT.out )
 KINSHIP_HAPFLK(MAF_FILTER.out)                                                  
 // Theoretical hapFLK                                                           
 /// Compute hapFLK using theoretical covariance matrix                          
-THEORETICAL_HAPFLK( MAF_FILTER.out )                                
+THEORETICAL_HAPFLK( MAF_FILTER.out, covariance_script )                                
 // Covariance hapFLK                                                            
 /// Compute hapFLK using estimated covariance matrix as kinship                 
 EMPIRICAL_HAPFLK( MAF_FILTER.out )                                              

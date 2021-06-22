@@ -1,7 +1,5 @@
 process KINSHIP_HAPFLK{                                                       
-    publishDir "${params.outdir}/${scenario}/" 
-    
-                                                                                
+    publishDir "${params.outdir}/${params.scenario}"                                                                                
     cpus 5                                                                      
                                                                                 
     input:                                                                      
@@ -24,7 +22,7 @@ process KINSHIP_HAPFLK{
 
 
 process EMPIRICAL_HAPFLK {                                                     
-    publishDir "${params.outdir}/${scenario}/"
+    publishDir "${params.outdir}/${params.scenario}"
 
                                                                                 
     cpus 5                                                                      
@@ -56,7 +54,7 @@ process EMPIRICAL_HAPFLK {
 
 
 process TREEMIX_HAPFLK {                                                        
-    publishDir "${params.outdir}/${scenario}/"
+    publishDir "${params.outdir}/${params.scenario}"
 
                                                                                 
     cpus 5                                                                      
@@ -81,18 +79,18 @@ process TREEMIX_HAPFLK {
 }                                                                              
 
 process THEORETICAL_HAPFLK{                                                     
-    publishDir "${params.outdir}/${scenario}/"                                  
+    publishDir "${params.outdir}/${params.scenario}"                                  
                                                                             
     cpus 5                                                                      
                                                                                 
     input:                                                                      
         tuple val(rep_id) ,val(s), val(m), file(bed), file(bim), file(fam) 
-       
+        file(covariance_script)
     output:                                                                     
         tuple val(rep_id) ,val(s), val(m), file("*.flk"), file("*.hapflk")                     
                                                                                 
     """
-    ${params.covariance_script} ${params.N} ${m}
+    Rscript ${covariance_script} ${params.N} ${m}
 
                               
     hapflk --ncpu ${task.cpus} \
@@ -111,7 +109,7 @@ process THEORETICAL_HAPFLK{
 
 
 process TREEMIX {                                                               
-                                                                                
+                                                                             
     cpus 1                                                                      
                                                                                 
     input:                                                                      

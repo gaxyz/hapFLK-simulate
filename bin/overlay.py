@@ -21,7 +21,7 @@ def make_alleles(n):
     return alleles[:n]
 
 ts = pyslim.load(args.treeseq)
-ts = msprime.mutate(ts, rate=1e-7, random_seed=1, keep=True)
+ts = msprime.mutate(ts, rate=1e-8, random_seed=1, keep=True)
 ts.dump("overlaid.trees")
 ts = pyslim.load("overlaid.trees")
 t = ts.tables
@@ -56,6 +56,6 @@ for ind,pop in zip(individuals,populations):
 
 ts=t.tree_sequence()
 with gzip.open(args.output, "wt") as f:
-    ts.write_vcf(f,individuals=individuals,individual_names=ind_names)
+    ts.write_vcf(f,individuals=individuals,individual_names=ind_names, position_transform="legacy")
 
 

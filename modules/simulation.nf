@@ -1,12 +1,12 @@
 process SIMULATE{                                                                
     errorStrategy "retry" 
     cpus 1          
-    scratch true
+   
     input:                                                                      
         file(slim_script)                                                       
         tuple val(rep_id), val(s), val(m)                                                             
     output:                                                                     
-        tuple val(rep_id), val(s), val(m) , file("*.vcf.gz")                         
+        tuple val(rep_id), val(s), val(m) , file("genotypes_${rep_id}.vcf.gz")                         
 
                                                                                 
     """                                                                         
@@ -17,7 +17,7 @@ process SIMULATE{
         -d N=${params.N} \
         ${slim_script}
     overlay.py final.trees genotypes_${rep_id}_noids.vcf.gz ${params.sample_size} 
-    bcftools annotate --set-id +'%CHROM\\_%POS' genotypes_${rep_id}_noids.vcf.gz >  genotypes_${rep_id}.vcf.gz           
+    bcftools annotate --set-id +'chr%CHROM-%POS' genotypes_${rep_id}_noids.vcf.gz  > genotypes_${rep_id}.vcf.gz           
     """                                                                         
                                                                                 
 }                                                                               
