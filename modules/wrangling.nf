@@ -1,17 +1,11 @@
 process PREPROCESS {
 
-    publishDir "${params.outdir}/${params.scenario}-s${s}-m${m}-cond${params.conditioned_frequency}"   , pattern:"genotypes_*"  
-    cpus 1
-    
-                                                                               
+    cpus 1                                                                               
     input:                                                                      
         tuple val(rep_id), val(s), val(m), file(vcf)
     output:                                                                     
         tuple val(rep_id), val(s), val(m), file("genotypes_${rep_id}.bed"), file("genotypes_${rep_id}.fam"),file("genotypes_${rep_id}.bim")
-        
-                                                                                
-   
-    
+
     """                                                                          
     plink --vcf genotypes_${rep_id}.vcf.gz --keep-allele-order --id-delim : --make-bed --out genotypes_${rep_id} 
     mv genotypes_${rep_id}.bed geno.bed                                         
@@ -29,8 +23,7 @@ process PREPROCESS {
 process AGGREGATE{                                                              
                                                                                 
     publishDir "$params.outdir", mode: "move"                                   
-                                                                                
-                                                                                
+                                                                                                
     input:                                                                      
         file(kinship)                                                          
         file(theoretical)                                                        
@@ -50,9 +43,7 @@ process AGGREGATE{
 
 
 process TREEMIX_INPUT {                                                         
-                                                                                
-    
-                                                                                
+                                                                                                                                                
     input:                                                                      
         tuple val(rep_id), val(s), val(m), file(bed), file(bim), file(fam)                                            
     output:                                                                     
@@ -70,7 +61,6 @@ process TREEMIX_INPUT {
 process MAF_FILTER {                                                            
                                                                                 
     cpus 1                                                
-
                                                                                 
     input:                                                                      
         tuple val(rep_id), val(s), val(m),file(bed), file(bim), file(fam)                      

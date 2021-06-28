@@ -21,7 +21,7 @@ def make_alleles(n):
     return alleles[:n]
 
 ts = pyslim.load(args.treeseq)
-ts = msprime.mutate(ts, rate=1e-8, random_seed=1, keep=True)
+ts = msprime.mutate(ts, rate=1e-7, random_seed=1, keep=True)
 ts.dump("overlaid.trees")
 ts = pyslim.load("overlaid.trees")
 t = ts.tables

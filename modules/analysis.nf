@@ -1,5 +1,6 @@
 process KINSHIP_HAPFLK{                                                       
-    publishDir "${params.outdir}/${params.scenario}"                                                                                
+    publishDir "${params.outdir}/${params.scenario}-s${s}-m${m}/hapflk", pattern: "*"
+
     cpus 5                                                                      
                                                                                 
     input:                                                                      
@@ -15,17 +16,16 @@ process KINSHIP_HAPFLK{
             --outgroup p1 \
             -K ${params.K} \
             --phased     \
-            --reynolds \
-            --nfit ${params.nfit}                                               
+            --reynolds 
     """                                                                         
 }                 
 
 
 process EMPIRICAL_HAPFLK {                                                     
-    publishDir "${params.outdir}/${params.scenario}"
 
-                                                                                
-    cpus 5                                                                      
+    publishDir "${params.outdir}/${params.scenario}-s${s}-m${m}/hapflk", pattern: "*"
+
+    cpus 5                               
                                                                                 
     input:                                                                      
         tuple val(rep_id), val(s), val(m), file(bed), file(bim), file(fam)                     
@@ -41,8 +41,7 @@ process EMPIRICAL_HAPFLK {
             -K ${params.K} \
             --phased     \
             --covkin \
-            --reynolds \
-            --nfit ${params.nfit}                                               
+            --reynolds 
     """                                                                         
                                                                                 
                                                                                 
@@ -54,9 +53,8 @@ process EMPIRICAL_HAPFLK {
 
 
 process TREEMIX_HAPFLK {                                                        
-    publishDir "${params.outdir}/${params.scenario}"
-
-                                                                                
+    publishDir "${params.outdir}/${params.scenario}-s${s}-m${m}/hapflk", pattern: "*"
+    
     cpus 5                                                                      
                                                                                 
     input:                                                                      
@@ -79,8 +77,8 @@ process TREEMIX_HAPFLK {
 }                                                                              
 
 process THEORETICAL_HAPFLK{                                                     
-    publishDir "${params.outdir}/${params.scenario}"                                  
                                                                             
+    publishDir "${params.outdir}/${params.scenario}-s${s}-m${m}/hapflk", pattern: "*"
     cpus 5                                                                      
                                                                                 
     input:                                                                      
@@ -100,7 +98,6 @@ process THEORETICAL_HAPFLK{
             --outgroup p1 \
             -K ${params.K} \
             --phased     \
-            --nfit ${params.nfit} \
             --kinship covariance.tab                                             
     """                                                                         
                                                                                 
@@ -110,6 +107,7 @@ process THEORETICAL_HAPFLK{
 
 process TREEMIX {                                                               
                                                                              
+    publishDir "${params.outdir}/${params.scenario}-s${s}-m${m}/treemix", pattern: "*"
     cpus 1                                                                      
                                                                                 
     input:                                                                      
