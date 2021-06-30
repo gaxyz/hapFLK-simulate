@@ -1,5 +1,5 @@
 process KINSHIP_HAPFLK{                                                       
-    publishDir "${params.outdir}/${params.scenario}-s${s}-m${m}/hapflk", pattern: "*"
+    publishDir "${params.outdir}/${params.scenario}/hapflk", pattern: "*"
 
     cpus 5                                                                      
                                                                                 
@@ -12,7 +12,7 @@ process KINSHIP_HAPFLK{
     hapflk --ncpu ${task.cpus} \
             --reynolds-snps ${params.reynold_snps} \
             --bfile genotypes_${rep_id} \
-            --prefix kinship_${rep_id} \
+            --prefix kinship_${rep_id}_${m}_${s} \
             --outgroup p1 \
             -K ${params.K} \
             --phased     \
@@ -23,7 +23,7 @@ process KINSHIP_HAPFLK{
 
 process EMPIRICAL_HAPFLK {                                                     
 
-    publishDir "${params.outdir}/${params.scenario}-s${s}-m${m}/hapflk", pattern: "*"
+    publishDir "${params.outdir}/${params.scenario}/hapflk", pattern: "*"
 
     cpus 5                               
                                                                                 
@@ -36,7 +36,7 @@ process EMPIRICAL_HAPFLK {
     hapflk --ncpu ${task.cpus} \
             --reynolds-snps ${params.reynold_snps} \
             --bfile genotypes_${rep_id} \
-            --prefix empirical_${rep_id} \
+            --prefix empirical_${rep_id}_${m}_${s} \
             --outgroup p1 \
             -K ${params.K} \
             --phased     \
@@ -53,7 +53,7 @@ process EMPIRICAL_HAPFLK {
 
 
 process TREEMIX_HAPFLK {                                                        
-    publishDir "${params.outdir}/${params.scenario}-s${s}-m${m}/hapflk", pattern: "*"
+    publishDir "${params.outdir}/${params.scenario}/hapflk", pattern: "*"
     
     cpus 5                                                                      
                                                                                 
@@ -67,7 +67,7 @@ process TREEMIX_HAPFLK {
     hapflk --ncpu ${task.cpus} \
             --reynolds-snps ${params.reynold_snps} \
             --bfile genotypes_${rep_id} \
-            --prefix treemix_${rep_id} \
+            --prefix treemix_${rep_id}_${m}_${s} \
             --outgroup p1 \
             -K ${params.K} \
             --phased     \
@@ -78,7 +78,7 @@ process TREEMIX_HAPFLK {
 
 process THEORETICAL_HAPFLK{                                                     
                                                                             
-    publishDir "${params.outdir}/${params.scenario}-s${s}-m${m}/hapflk", pattern: "*"
+    publishDir "${params.outdir}/${params.scenario}/hapflk", pattern: "*"
     cpus 5                                                                      
                                                                                 
     input:                                                                      
@@ -94,7 +94,7 @@ process THEORETICAL_HAPFLK{
     hapflk --ncpu ${task.cpus} \
             --reynolds-snps ${params.reynold_snps} \
             --bfile genotypes_${rep_id} \
-            --prefix theoretical_${rep_id} \
+            --prefix theoretical_${rep_id}_${m}_${s} \
             --outgroup p1 \
             -K ${params.K} \
             --phased     \
