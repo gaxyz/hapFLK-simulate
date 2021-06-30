@@ -20,7 +20,7 @@ with gzip.open(scenario+"_hapflk.tab.gz", "wb") as outfile:
         for f in hapflk_files:
             basename = os.path.basename(f)
             name = os.path.splitext(basename)
-            covariance, replicate, m, s = name.split("_")
+            covariance, replicate, m, s = name[0].split("_")
             with open(f, 'r') as handle:
                 next(handle)
                 for line in handle:
@@ -37,7 +37,7 @@ with gzip.open(scenario+"_flk.tab.gz", "wb") as outfile:
         for f in flk_files:
             basename = os.path.basename(f)
             name = os.path.splitext(basename)
-            covariance, replicate, m, s = name.split("_")
+            covariance, replicate, m, s = name[0].split("_")
             with open(f, 'r') as handle:
                 next(handle)
                 for line in handle:
