@@ -16,6 +16,8 @@ process SIMULATE{
     slim -d s=${s} \
         -d m=${m} \
         -d condfreq=${params.conditioned_frequency} \
+	-d onsetFreq=${params.onsetFreq} \
+	-d epsilon=${params.epsilon} \
         -d rep_id=${rep_id} \
         -d N=${params.N} \
         ${slim_script}
