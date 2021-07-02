@@ -4,7 +4,7 @@ workflow {
 
 //// SIMULATION                   
 include {SIMULATE} from "../modules/simulation"
-include {PREPROCESS; COLLECT_FREQUENCIES} from "../modules/wrangling"
+include {PREPROCESS} from "../modules/wrangling"
 //// HAPFLK 
 include {KINSHIP_HAPFLK; EMPIRICAL_HAPFLK; THEORETICAL_HAPFLK; TREEMIX_HAPFLK; TREEMIX} from "../modules/analysis"
 include {TREEMIX_INPUT; MAF_FILTER; AGGREGATE } from "../modules/wrangling" 
