@@ -78,25 +78,6 @@ process MAF_FILTER {
     """                                                                         
                                                                                 
 }                                                                               
-    
-process COLLECT_FREQUENCIES {
-
-    publishDir "${params.outdir}"   , pattern:"frequencies_*.tsv" , mode: "move"
-    
-    cpus 1
-
-    input:
-        file(freqfile)
-    output:
-        file("frequencies_*.tsv")
-
-    """
-    collect-frequencies.py . --out frequencies_${params.scenario}.tsv
-    """           
- 
-
-}
-
 
 
  

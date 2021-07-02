@@ -1,5 +1,5 @@
 process KINSHIP_HAPFLK{                                                       
-    publishDir "${params.outdir}/${params.scenario}/hapflk", pattern: "*"
+    publishDir "${params.outdir}/hapflk", pattern: "*"
 
     cpus 5                                                                      
                                                                                 
@@ -23,7 +23,7 @@ process KINSHIP_HAPFLK{
 
 process EMPIRICAL_HAPFLK {                                                     
 
-    publishDir "${params.outdir}/${params.scenario}/hapflk", pattern: "*"
+    publishDir "${params.outdir}/hapflk", pattern: "*"
 
     cpus 5                               
                                                                                 
@@ -53,7 +53,7 @@ process EMPIRICAL_HAPFLK {
 
 
 process TREEMIX_HAPFLK {                                                        
-    publishDir "${params.outdir}/${params.scenario}/hapflk", pattern: "*"
+    publishDir "${params.outdir}/hapflk", pattern: "*"
     
     cpus 5                                                                      
                                                                                 
@@ -78,7 +78,7 @@ process TREEMIX_HAPFLK {
 
 process THEORETICAL_HAPFLK{                                                     
                                                                             
-    publishDir "${params.outdir}/${params.scenario}/hapflk", pattern: "*"
+    publishDir "${params.outdir}/hapflk", pattern: "*"
     cpus 5                                                                      
                                                                                 
     input:                                                                      
