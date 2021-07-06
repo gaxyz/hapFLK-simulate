@@ -124,7 +124,8 @@ initialize(){
     p5.setMigrationRates(p4,0);	
 }
 /// save state
-12500 late() {
+12501 late() {
+     if (s>0) {
      sim.treeSeqOutput("/tmp/slim_" + simID + ".trees");
      mut = sim.mutationsOfType( m2 ) ;
      frequency = sim.mutationFrequencies(p5,mut);
@@ -137,9 +138,11 @@ initialize(){
             	  	sim.readFromPopulationFile( "/tmp/slim_burnin_" + simID + ".trees" );
          		  	// start newly seeded run
       		     	setSeed( rdunif(1,0,asInteger(2^62) - 1 )); }
+
+}
 }
 // Modify fitness in admixed population
-12500: fitness(m2, p5){
+12501: fitness(m2, p5){
         return 1.0 + s ; //
 }
 // End simulation and save genotypes
