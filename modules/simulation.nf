@@ -1,9 +1,17 @@
 process SIMULATE{ 
+<<<<<<< HEAD
     publishDir "${params.outdir}/vcf/${params.scenario}-s${s}-m${m}", pattern: "genotypes_${rep_id}.vcf.gz"
                                                                
     errorStrategy "retry"
     scratch true 
     cpus 2          
+=======
+    publishDir "${params.outdir}/${params.scenario}-s${s}-m${m}/genotypes", pattern: "genotypes_${rep_id}.vcf.gz"
+                                                               
+    errorStrategy "retry"
+     
+    cpus 1          
+>>>>>>> efeb7c9f85efff0ed5ae882a07e807b7cfb5a414
    
     input:                                                                      
         file(slim_script)                                                       
@@ -16,6 +24,8 @@ process SIMULATE{
     slim -d s=${s} \
         -d m=${m} \
         -d condfreq=${params.conditioned_frequency} \
+	-d onsetFreq=${params.onsetFreq} \
+	-d epsilon=${params.epsilon} \
         -d rep_id=${rep_id} \
         -d N=${params.N} \
         ${slim_script}

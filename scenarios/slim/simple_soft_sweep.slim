@@ -8,27 +8,30 @@ initialize(){
     initializeGenomicElementType("g1",m1,1.0);
     // Chromosomes
     initializeGenomicElement(g1, 0, 10*999999);
-
+	 // Inputtable constants
+	 //defineConstant("s",0.1);
+	 //defineConstant("m",0.2);
+	 //defineConstant("condfreq",0.3);
+	 //defineConstant("onsetFreq",0.2);
+	 //defineConstant("epsilon", 0.01);
+	 //defineConstant("rep_id", "1");
+	 //defineConstant("N",1000);
+    // Other constants
+	 defineConstant("m2_site", 10*499999 );
+    // Save run identifier
+	 defineConstant("simID",getSeed());
 }
+
 /// 
 1 {
-	// Inputtable constants
-	//defineConstant("s",0.1);
-	//defineConstant("m",0.2);
-	//defineConstant("condfreq",0.3);
-	//defineConstant("rep_id", "1");
-	//defineConstant("N",1000);
-    // Other constants
-	defineConstant("m2_site", 10*499999 );
-    // Save run identifier
-	defineConstant("simID",getSeed());
+
     // Add first population 
 	sim.addSubpop("p1",N); 
 }
 // Add m2 mutations and save
 10000 late() {
     // save state
-    sim.treeSeqOutput("/tmp/slim_" + simID + ".trees");
+    sim.treeSeqOutput("/tmp/slim_burnin_" + simID + ".trees");
     // introduce m2
     target = sample(p1.genomes,1);
     target.addNewDrawnMutation(m2,m2_site);
@@ -49,7 +52,7 @@ initialize(){
     {
             cat(getSeed() + " GENERATION: "+ sim.generation +": LOST BEFORE ESTABLISHMENT -- RESTARTING \n");
             // back to saved gen
-            sim.readFromPopulationFile( "/tmp/slim_" + simID + ".trees" );
+            sim.readFromPopulationFile( "/tmp/slim_burnin_" + simID + ".trees" );
             // start newly seeded run
             setSeed( rdunif(1,0,asInteger(2^62) - 1 ));
             // re introduce mutation
@@ -69,10 +72,10 @@ initialize(){
 10100 late() {
      sim.treeSeqOutput("/tmp/slim_" + simID + ".trees");
 }
-//// RESTART SIMULATION IF MUTATION IS LOST ////
+//// RESTART SIMULATION IF MUTATION IS LOST //////////////////////////////////////////////
 10100:12500 late() {
     mut = sim.mutationsOfType( m2 ) ;
-	// Store value if mutation is lost. If clause is b/c if m2 is completely lost, it fucks up code
+	 // Store value if mutation is lost. If clause is b/c if m2 is completely lost, it fucks up code
     lost = sim.mutationFrequencies(p2,mut) < 1/(2*N);
     // Only control for selection scenario
     if ( s > 0.0 ){
@@ -91,7 +94,10 @@ initialize(){
     	}
     }
 }
-////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
+
+
+
 // Second split
 10600 {
     sim.addSubpopSplit("p4", N , p2 );
@@ -118,11 +124,25 @@ initialize(){
     p5.setMigrationRates(p4,0);	
 }
 /// save state
-12500 late() {
+12501 late() {
+     if (s>0) {
      sim.treeSeqOutput("/tmp/slim_" + simID + ".trees");
+     mut = sim.mutationsOfType( m2 ) ;
+     frequency = sim.mutationFrequencies(p5,mut);
+     cat(getSeed()+ " m2 frequency is: "+ frequency +" \n");
+     
+     if ( (onsetFreq+epsilon) < frequency | (onsetFreq-epsilon) > frequency ) {
+     	 	         /// m2 outside selection onset frequency range 
+         	 		cat("--->GOING BACK TO BURN-IN\n");
+             	  	// back to saved gen
+            	  	sim.readFromPopulationFile( "/tmp/slim_burnin_" + simID + ".trees" );
+         		  	// start newly seeded run
+      		     	setSeed( rdunif(1,0,asInteger(2^62) - 1 )); }
+
+}
 }
 // Modify fitness in admixed population
-12500: fitness(m2, p5){
+12501: fitness(m2, p5){
         return 1.0 + s ; //
 }
 // End simulation and save genotypes
