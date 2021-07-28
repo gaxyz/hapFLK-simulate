@@ -37,7 +37,7 @@ covariance_script = file(params.covariance_script) /// R script for computing co
                                                                                 
                                                                                 
 // Generate replicate channels                                                        
-rep_id = Channel.from(1..1000000).randomSample(replicates)
+rep_id = Channel.from(1..1000000).randomSample(params.replicates)
 // Merge with other parameters
 s = Channel.fromList( params.scoef )
 m = Channel.fromList( params.mcoef )
