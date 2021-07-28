@@ -1,6 +1,7 @@
 process PREPROCESS {
 
-    cpus 1                                                                               
+    cpus 1   
+    scratch true                                                                            
     input:                                                                      
         tuple val(rep_id), val(s), val(m), file(vcf)
     output:                                                                     
@@ -43,7 +44,8 @@ process AGGREGATE{
 
 
 process TREEMIX_INPUT {                                                         
-                                                                                                                                                
+       
+    scratch true                                                                                                                                         
     input:                                                                      
         tuple val(rep_id), val(s), val(m), file(bed), file(bim), file(fam)                                            
     output:                                                                     
@@ -59,7 +61,8 @@ process TREEMIX_INPUT {
 }      
 
 process MAF_FILTER {                                                            
-                                                                                
+    
+    scratch true                                                                           
     cpus 1                                                
                                                                                 
     input:                                                                      
@@ -78,25 +81,3 @@ process MAF_FILTER {
     """                                                                         
                                                                                 
 }                                                                               
-    
-process COLLECT_FREQUENCIES {
-
-    publishDir "${params.outdir}"   , pattern:"frequencies_*.tsv" , mode: "move"
-    
-    cpus 1
-
-    input:
-        file(freqfile)
-    output:
-        file("frequencies_*.tsv")
-
-    """
-    collect-frequencies.py . --out frequencies_${params.scenario}.tsv
-    """           
- 
-
-}
-
-
-
- 
