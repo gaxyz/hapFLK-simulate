@@ -1,15 +1,15 @@
 process KINSHIP_HAPFLK{                                                       
-<<<<<<< HEAD
+
     publishDir "${params.outdir}/hapflk/${params.scenario}-${m}-${s}", pattern: "*.hapflk"
     publishDir "${params.outdir}/hapflk/${params.scenario}-${m}-${s}", pattern: "*_reynolds.txt"
     publishDir "${params.outdir}/hapflk/${params.scenario}-${m}-${s}", pattern: "*_tree.txt"
     publishDir "${params.outdir}/hapflk/${params.scenario}-${m}-${s}", pattern: "*_fij.txt"
     publishDir "${params.outdir}/hapflk/${params.scenario}-${m}-${s}", pattern: "*_cov.txt"
     scratch true
-=======
+
     publishDir "${params.outdir}/hapflk", pattern: "*"
 
->>>>>>> efeb7c9f85efff0ed5ae882a07e807b7cfb5a414
+
     cpus 5                                                                      
                                                                                 
     input:                                                                      
@@ -31,16 +31,16 @@ process KINSHIP_HAPFLK{
 
 
 process EMPIRICAL_HAPFLK {                                                     
-<<<<<<< HEAD
+
     publishDir "${params.outdir}/hapflk/${params.scenario}-${m}-${s}", pattern: "*.hapflk"
     publishDir "${params.outdir}/hapflk/${params.scenario}-${m}-${s}", pattern: "*_reynolds.txt"
     publishDir "${params.outdir}/hapflk/${params.scenario}-${m}-${s}", pattern: "*_tree.txt"
     publishDir "${params.outdir}/hapflk/${params.scenario}-${m}-${s}", pattern: "*_fij.txt"
-=======
+
 
     publishDir "${params.outdir}/hapflk", pattern: "*"
 
->>>>>>> efeb7c9f85efff0ed5ae882a07e807b7cfb5a414
+
     cpus 5                               
     scratch true                                                                
     input:                                                                      
@@ -65,11 +65,11 @@ process EMPIRICAL_HAPFLK {
 
 
 process TREEMIX_HAPFLK {                                                        
-<<<<<<< HEAD
+
     publishDir "${params.outdir}/hapflk/${params.scenario}-${m}-${s}", pattern: "*.hapflk"
-=======
+
     publishDir "${params.outdir}/hapflk", pattern: "*"
->>>>>>> efeb7c9f85efff0ed5ae882a07e807b7cfb5a414
+
     
     scratch true
     cpus 5                                                                      
@@ -94,13 +94,13 @@ process TREEMIX_HAPFLK {
 }                                                                              
 
 process THEORETICAL_HAPFLK{                                                     
-<<<<<<< HEAD
+
     publishDir "${params.outdir}/hapflk/${params.scenario}-${m}-${s}", pattern: "*.hapflk"
     scratch true
-=======
+
                                                                             
     publishDir "${params.outdir}/hapflk", pattern: "*"
->>>>>>> efeb7c9f85efff0ed5ae882a07e807b7cfb5a414
+
     cpus 5                                                                      
                                                                                 
     input:                                                                      

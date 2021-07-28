@@ -1,5 +1,5 @@
 process SIMULATE{ 
-<<<<<<< HEAD
+
     publishDir "${params.outdir}/vcf/${params.scenario}-s${s}-m${m}", pattern: "genotypes_${rep_id}.vcf.gz"
                                                                
     errorStrategy "retry"
@@ -11,7 +11,7 @@ process SIMULATE{
     errorStrategy "retry"
      
     cpus 1          
->>>>>>> efeb7c9f85efff0ed5ae882a07e807b7cfb5a414
+
    
     input:                                                                      
         file(slim_script)                                                       

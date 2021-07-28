@@ -81,9 +81,9 @@ process MAF_FILTER {
     """                                                                         
                                                                                 
 }                                                                               
-<<<<<<< HEAD
-=======
+
+
 
 
  
->>>>>>> efeb7c9f85efff0ed5ae882a07e807b7cfb5a414
+
