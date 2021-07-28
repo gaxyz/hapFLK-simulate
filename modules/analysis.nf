@@ -6,10 +6,6 @@ process KINSHIP_HAPFLK{
     publishDir "${params.outdir}/hapflk/${params.scenario}-${m}-${s}", pattern: "*_fij.txt"
     publishDir "${params.outdir}/hapflk/${params.scenario}-${m}-${s}", pattern: "*_cov.txt"
     scratch true
-
-    publishDir "${params.outdir}/hapflk", pattern: "*"
-
-
     cpus 5                                                                      
                                                                                 
     input:                                                                      
@@ -36,13 +32,9 @@ process EMPIRICAL_HAPFLK {
     publishDir "${params.outdir}/hapflk/${params.scenario}-${m}-${s}", pattern: "*_reynolds.txt"
     publishDir "${params.outdir}/hapflk/${params.scenario}-${m}-${s}", pattern: "*_tree.txt"
     publishDir "${params.outdir}/hapflk/${params.scenario}-${m}-${s}", pattern: "*_fij.txt"
-
-
-    publishDir "${params.outdir}/hapflk", pattern: "*"
-
-
     cpus 5                               
     scratch true                                                                
+
     input:                                                                      
         tuple val(rep_id), val(s), val(m), file(bed), file(bim), file(fam)                     
     output:                                                                     
@@ -67,10 +59,6 @@ process EMPIRICAL_HAPFLK {
 process TREEMIX_HAPFLK {                                                        
 
     publishDir "${params.outdir}/hapflk/${params.scenario}-${m}-${s}", pattern: "*.hapflk"
-
-    publishDir "${params.outdir}/hapflk", pattern: "*"
-
-    
     scratch true
     cpus 5                                                                      
                                                                                 
@@ -97,10 +85,6 @@ process THEORETICAL_HAPFLK{
 
     publishDir "${params.outdir}/hapflk/${params.scenario}-${m}-${s}", pattern: "*.hapflk"
     scratch true
-
-                                                                            
-    publishDir "${params.outdir}/hapflk", pattern: "*"
-
     cpus 5                                                                      
                                                                                 
     input:                                                                      

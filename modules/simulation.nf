@@ -4,15 +4,7 @@ process SIMULATE{
                                                                
     errorStrategy "retry"
     scratch true 
-    cpus 2          
-=======
-    publishDir "${params.outdir}/${params.scenario}-s${s}-m${m}/genotypes", pattern: "genotypes_${rep_id}.vcf.gz"
-                                                               
-    errorStrategy "retry"
-     
-    cpus 1          
-
-   
+    cpus 1  
     input:                                                                      
         file(slim_script)                                                       
         tuple val(rep_id), val(s), val(m)                                                             

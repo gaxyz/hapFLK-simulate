@@ -1,5 +1,4 @@
 process PREPROCESS {
-
     cpus 1   
     scratch true                                                                            
     input:                                                                      
