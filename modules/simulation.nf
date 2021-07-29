@@ -1,7 +1,7 @@
 process SIMULATE{ 
 
     publishDir "${params.outdir}/vcf/${params.scenario}-s${s}-m${m}", pattern: "genotypes_${rep_id}.vcf.gz"
-    time "150m"                                                           
+    
     errorStrategy "retry"
     scratch true 
     cpus 1  
